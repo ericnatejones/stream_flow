@@ -1,5 +1,32 @@
+
+<h1>river levels</h1>
+
+<input placeholder="search" ng-model="searchTerm"/>
+
+
+<div>
+    <br>
+    <input placeholder="flow in CFS" id="discharge" size="16" readonly="readonly" class="flow"/>
+</div>
+    <!--<div class="container">-->
+ <div class="container-fluid">
+    <div class="btn-group">
+
+        <div ng-repeat="site in sites | orderBy:'name' | filter:searchTerm">
+            <ul class="nav nav-pills nav-stacked">
+                <button class="btn btn-sm btn-success" ng-click="getFlows(site.site)">
+                 {{site.description}}
+                </button>
+
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<button ng-click="showInput = !showInput">can't find a site?</button>
+<input ng-show="showInput" placeholder="site number" ng-model="siteNumber"/>
+<button ng-show="showInput" ng-click="addSiteToDataBase(siteNumber)">add site to database</button>
+
 {{ siteData.description }}
 {{ siteData.streamFlow }}
-
-<input placeholder=$scope.siteNumber ng-model="siteNumber">
-<button ng-click="getFlows(siteNumber)"></button>
