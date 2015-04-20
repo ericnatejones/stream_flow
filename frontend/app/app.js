@@ -7,6 +7,8 @@ angular.module('myApp', [
     'myApp.view2',
     'myApp.version',
     'restangular'
+
+
 ]).
 
     config(['$routeProvider', 'RestangularProvider', function ($routeProvider, RestangularProvider) {
