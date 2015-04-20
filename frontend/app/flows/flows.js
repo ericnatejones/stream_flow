@@ -10,7 +10,7 @@ angular.module('myApp.flows', ['ngRoute'])
 }])
 
 .controller('FlowsCtrl', ['$scope', 'Restangular', '$http', function($scope, Restangular, $http) {
-    $scope.showInput = false
+    $scope.showInput = false;
     $scope.siteData = {};
     $scope.siteNumber = 13022500;
     Restangular.all('sites/').getList().then(function (data) {
