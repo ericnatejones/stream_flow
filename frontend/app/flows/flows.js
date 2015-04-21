@@ -57,5 +57,6 @@ angular.module('myApp.flows', ['ngRoute'])
     $scope.addSiteToDataBase = function (siteNumber) {
         apiCall($scope.siteNumber=siteNumber, "addSiteToDataBase")
     };
+    stroll.bind( '#main ul', { live: true } );
 
 }]);

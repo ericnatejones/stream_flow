@@ -5,6 +5,7 @@ angular.module('myApp', [
     'ngRoute',
     'myApp.flows',
     'myApp.view2',
+
     'myApp.version',
     'restangular'
 

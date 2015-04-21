@@ -11,6 +11,7 @@ button {
 body {
     text-align: center;
     overflow: hidden;
+    font-family: 'Lato', Times, 'Times New Roman', serif;
 }
 
 input {
