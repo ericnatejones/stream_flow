@@ -1,4 +1,7 @@
+div {
+    align-content: center;
 
+}
 
 button {
     display:inline-block;
@@ -19,9 +22,9 @@ input {
 }
 
 ul {
-  position: relative;
+  align-content: center;
   width: 800px;
-  height: 200px;
+  height: 400px;
   margin: 50px auto;
   padding: 0;
   list-style: none;

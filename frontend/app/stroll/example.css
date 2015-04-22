@@ -53,10 +53,11 @@ small {
  * List used for the demo page
  */
 ul {
-	position: relative;
-	width: 230px;
-	height: 480px;
-	margin: 0;
+
+
+	width: 50%;
+
+	margin-left: 25%;
 	padding: 0;
 	overflow-x: hidden;
 	overflow-y: scroll;
@@ -69,7 +70,8 @@ ul {
 	        perspective: 400px;
 }
 	ul li {
-		position: relative;
+		  align-content: center;
+
 		padding: 16px;
 		background: #eee;
 		color: #252525;

@@ -9,7 +9,8 @@ angular.module('myApp.flows', ['ngRoute'])
   });
 }])
 
-.controller('FlowsCtrl', ['$scope', 'Restangular', '$http', function($scope, Restangular, $http) {
+.controller('FlowsCtrl', ['$scope', 'Restangular', '$http', '$location', function($scope, Restangular, $http, $location) {
+    if( 'ontouchstart' in window ) $location.path('/mobile');
     $scope.showInput = false;
     $scope.siteData = {};
     $scope.siteNumber = 13022500;
