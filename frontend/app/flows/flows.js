@@ -9,8 +9,8 @@ angular.module('myApp.flows', ['ngRoute'])
   });
 }])
 
-.controller('FlowsCtrl', ['$scope', 'Restangular', '$http', '$location', function($scope, Restangular, $http, $location) {
-    if( 'ontouchstart' in window ) $location.path('/mobile');
+.controller('FlowsCtrl', ['$scope', 'Restangular', '$http', '$location', function($scope, Restangular, $http) {
+
     $scope.showInput = false;
     $scope.siteData = {};
     $scope.siteNumber = 13022500;
@@ -58,6 +58,5 @@ angular.module('myApp.flows', ['ngRoute'])
     $scope.addSiteToDataBase = function (siteNumber) {
         apiCall($scope.siteNumber=siteNumber, "addSiteToDataBase")
     };
-    stroll.bind( '#main ul', { live: true } );
 
 }]);

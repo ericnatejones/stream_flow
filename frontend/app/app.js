@@ -4,7 +4,6 @@
 angular.module('myApp', [
     'ngRoute',
     'myApp.flows',
-    'myApp.mobile',
     'ui.bootstrap',
     'myApp.version',
     'restangular'

@@ -1,29 +1,30 @@
+<div >
+    <h2>stream flows</h2>
 
-<h2>stream flows</h2>
-
-<input placeholder="search" ng-model="searchTerm"/>
+    <input placeholder="search" ng-model="searchTerm"/>
 
 
-<div>
-    <br>
-    <input placeholder="flow in CFS" id="discharge" size="16" readonly="readonly" class="flow" ng-model="streamFlow"/>
+    <div>
+        <br>
+        <input placeholder="flow in CFS" id="discharge" size="16" readonly="readonly" class="flow" ng-model="streamFlow"/>
+    </div>
+
+
+    <div id="main">
+        <ul class="grow">
+
+             <li ng-repeat="site in sites | orderBy:'name' | filter:searchTerm">
+                 <button ng-click="getFlows(site.site)" data-sr>{{site.description}}</button>
+             </li>
+
+
+        </ul>
+    </div>
+
+    <button ng-click="showInput = !showInput">can't find a site?</button>
+    <input ng-show="showInput" placeholder="site number" ng-model="siteNumber"/>
+    <button ng-show="showInput" ng-click="addSiteToDataBase(siteNumber)">add site to database</button>
+
+    {{ siteData.description }}
+    {{ siteData.streamFlow }}
 </div>
-
-
-<div id="main">
-    <ul class="grow">
-
-         <li ng-repeat="site in sites | orderBy:'name' | filter:searchTerm">
-             <button ng-click="getFlows(site.site)">{{site.description}}</button>
-         </li>
-
-
-    </ul>
-</div>
-
-<button ng-click="showInput = !showInput">can't find a site?</button>
-<input ng-show="showInput" placeholder="site number" ng-model="siteNumber"/>
-<button ng-show="showInput" ng-click="addSiteToDataBase(siteNumber)">add site to database</button>
-
-{{ siteData.description }}
-{{ siteData.streamFlow }}
