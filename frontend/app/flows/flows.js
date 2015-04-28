@@ -56,7 +56,9 @@ angular.module('myApp.flows', ['ngRoute'])
         apiCall($scope.siteNumber=siteNumber, "getFlows")
     };
     $scope.addSiteToDataBase = function (siteNumber) {
+        $scope.showInput = false;
         apiCall($scope.siteNumber=siteNumber, "addSiteToDataBase")
+
     };
 
 }]);

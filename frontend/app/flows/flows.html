@@ -10,21 +10,19 @@
     </div>
 
 
-    <div id="main">
-        <ul class="grow">
 
-             <li ng-repeat="site in sites | orderBy:'name' | filter:searchTerm">
-                 <button ng-click="getFlows(site.site)" data-sr>{{site.description}}</button>
-             </li>
+    <ul class="grow">
+
+         <li ng-repeat="site in sites | orderBy:'name' | filter:searchTerm">
+             <button ng-click="getFlows(site.site)" data-sr>{{site.description}}</button>
+         </li>
 
 
-        </ul>
-    </div>
+    </ul>
 
-    <button ng-click="showInput = !showInput">can't find a site?</button>
-    <input ng-show="showInput" placeholder="site number" ng-model="siteNumber"/>
+
+    <button ng-hide="showInput" ng-click="showInput = !showInput">can't find a site?</button>
     <button ng-show="showInput" ng-click="addSiteToDataBase(siteNumber)">add site to database</button>
 
-    {{ siteData.description }}
-    {{ siteData.streamFlow }}
+    <input ng-show="showInput" placeholder="site number" ng-model="siteNumber"/>
 </div>
