@@ -14,5 +14,5 @@ angular.module('myApp', [
     config(['$routeProvider', 'RestangularProvider', function ($routeProvider, RestangularProvider) {
         $routeProvider.otherwise({redirectTo: '/flows'});
 
-        RestangularProvider.setBaseUrl('http://localhost:8001')
+        RestangularProvider.setBaseUrl('/api')
     }]);
