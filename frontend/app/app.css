@@ -50,3 +50,12 @@ ul li:nth-child(odd) {
 .add-site-input {
     max-width: 14%;
 }
+.login-button {
+    max-width: 100px;
+    margin-right: 1%;
+}
+
+.login-input {
+    margin-top: 5px;
+    max-width: 10%;
+}

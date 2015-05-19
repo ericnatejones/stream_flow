@@ -9,8 +9,14 @@ angular.module('myApp.flows', ['ngRoute'])
   });
 }])
 
-.controller('FlowsCtrl', ['$scope', 'Restangular', '$http', '$location', function($scope, Restangular, $http) {
+.controller('FlowsCtrl', ['$scope', 'Restangular', '$http', '$location', 'User', '$rootScope', function($scope, Restangular, $http, $location, User, $rootScope) {
 
+    $scope.credentials = {
+        username: '',
+        password: '',
+        groups: '',
+        user_permissions: ''
+    };
     $scope.showInput = false;
     $scope.siteData = {};
     $scope.siteNumber = 13022500;
@@ -18,6 +24,28 @@ angular.module('myApp.flows', ['ngRoute'])
         $scope.sites = data;
     });
     //13023000
+    $scope.login = function() {
+
+        Restangular.all('login/').customPOST($scope.credentials).then(function (data) {
+            User.info.id = data.id;
+            User.info.name = data.name;
+            $scope.credentials = {
+                username: '',
+                password: ''
+            };
+            $rootScope.$broadcast('user-updated');
+            sessionStorage.setItem('User', JSON.stringify(User.info));
+
+        }, function(data) {
+
+            alert ("you are a nice boy")
+
+        });
+        $scope.showLogin = false;
+
+    };
+
+    $scope.alerts = [];
     var apiCall = function (siteNumber, doWhat) {
         $http.get("http://waterservices.usgs.gov/nwis/iv/?format=json&sites=" + siteNumber + "&variable=00060,00065").
         success(function(data) {
@@ -61,4 +89,13 @@ angular.module('myApp.flows', ['ngRoute'])
 
     };
 
-}]);
+
+}])
+.factory('User', function() {
+    var user = {};
+    user.info = {
+        id: '',
+        name: ''
+    };
+    return user
+});

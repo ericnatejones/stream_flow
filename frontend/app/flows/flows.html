@@ -1,4 +1,17 @@
 <div >
+    <form ng-show="showLogin" name="loginForm" role="form" ng-submit="login()">
+        <div class="form-group">
+            <input type="text" class="login-input" id="username" placeholder="username" ng-model="credentials.username">
+
+            <input type="password" class="login-input" id="password" placeholder="password" ng-model="credentials.password">
+        </div>
+
+        <button type="submit" class="login-button">submit</button>
+    </form>
+    <button class = "login-button" ng-hide="showLogin" ng-click="showLogin = !showLogin">login</button>
+
+
+
     <h2>stream flows</h2>
 
     <input placeholder="search" ng-model="searchTerm"/>
