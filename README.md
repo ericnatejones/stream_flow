@@ -19,3 +19,9 @@ Users may login, create their own list of sites, and put watchers on the sites t
 
 ##Setup 
 
+clone repo
+
+##fun
+
+
+
