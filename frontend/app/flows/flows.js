@@ -9,14 +9,21 @@ angular.module('myApp.flows', ['ngRoute'])
   });
 }])
 
+
 .controller('FlowsCtrl', ['$scope', 'Restangular', '$http', '$location', 'User', '$rootScope', function($scope, Restangular, $http, $location, User, $rootScope) {
 
     $scope.credentials = {
         username: '',
-        password: '',
-        groups: '',
-        user_permissions: ''
+        password: ''
+        //groups: '',
+        //user_permissions: ''
     };
+
+    $scope.registration = {
+        username: '',
+        password: ''
+    };
+
     $scope.showInput = false;
     $scope.siteData = {};
     $scope.siteNumber = 13022500;
@@ -24,26 +31,32 @@ angular.module('myApp.flows', ['ngRoute'])
         $scope.sites = data;
     });
     //13023000
-    $scope.login = function() {
 
-        Restangular.all('api-token-auth/').customPOST($scope.credentials).then(function (data) {
-            User.info.id = data.id;
-            User.info.name = data.name;
+    $scope.signup = function () {
+        User.signup($scope.registration).then(function () {
+            $scope.registration = {
+                username: '',
+                password: ''
+            };
+
+        }, function () {
+            alert("There was a problem. Please try again")
+        })
+    };
+    $scope.login = function() {
+        User.login($scope.credentials).then(function(){
             $scope.credentials = {
                 username: '',
                 password: ''
             };
-            $rootScope.$broadcast('user-updated');
-            sessionStorage.setItem('User', JSON.stringify(User.info));
 
-        }, function(data) {
 
-            alert ("you are a nice boy")
-
+        }, function() {
+            $scope.signup()
         });
-        $scope.showLogin = false;
-
+        $scope.showLogin = false
     };
+
 
     $scope.alerts = [];
     var apiCall = function (siteNumber, doWhat) {
@@ -91,11 +104,3 @@ angular.module('myApp.flows', ['ngRoute'])
 
 
 }])
-.factory('User', function() {
-    var user = {};
-    user.info = {
-        id: '',
-        name: ''
-    };
-    return user
-});

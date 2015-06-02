@@ -4,15 +4,49 @@
 angular.module('myApp', [
     'ngRoute',
     'myApp.flows',
+    'myApp.User',
     'ui.bootstrap',
     'myApp.version',
     'restangular'
+])
+.config(['$routeProvider', 'RestangularProvider', function ($routeProvider, RestangularProvider) {
+    $routeProvider.otherwise({redirectTo: '/flows'});
+
+    RestangularProvider.setBaseUrl('http://localhost:8001')
+}])
+.controller('AppCtrl', function ($scope, User, $location, $http) {
 
 
-]).
+    if (sessionStorage.getItem('DjangoAuthToken')){
+        var token = sessionStorage.getItem('DjangoAuthToken');
+        $http.defaults.headers.common.Authorization = 'Token ' + token;
+        User.getInfo().then(function(){
+            $scope.user = User.info;
+        });
+    }
 
-    config(['$routeProvider', 'RestangularProvider', function ($routeProvider, RestangularProvider) {
-        $routeProvider.otherwise({redirectTo: '/flows'});
+    if (User.info.id == '') {
+    }
 
-        RestangularProvider.setBaseUrl('http://localhost:8001')
-    }]);
+    $scope.logout = function() {
+        User.info = {
+            id: '',
+            name: ''
+        };
+        $scope.user = null;
+        sessionStorage.clear();
+    };
+
+    $scope.$on("user-updated", function() {
+        $scope.user = User.info;
+    });
+
+    $scope.$on('$routeChangeStart', function() {
+        if ((User.info != null && User.info.id == '') || User.info == null){
+        }
+    });
+
+});
+
+var baseURL = 'http://localhost:8001/';
+
