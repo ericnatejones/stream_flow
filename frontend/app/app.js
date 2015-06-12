@@ -14,7 +14,7 @@ angular.module('myApp', [
     config(['$routeProvider', 'RestangularProvider', function ($routeProvider, RestangularProvider) {
         $routeProvider.otherwise({redirectTo: '/flows'});
 
-        RestangularProvider.setBaseUrl('/api')
+        RestangularProvider.setBaseUrl('/api/')
     }]);
 
-var baseURL = '/api';
+var baseURL = '/api/';
