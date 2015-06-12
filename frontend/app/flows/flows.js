@@ -10,10 +10,8 @@ angular.module('myApp.flows', ['ngRoute'])
 }])
 
 .controller('FlowsCtrl', ['$scope', 'Restangular', '$http', function($scope, Restangular, $http) {
-    $scope.showCFS = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    if (window.innerWidth < 1000) {
-        $scope.showCFS = true;
-    }
+    $scope.searchTerm = '';
+    $scope.showCfsWhenScreenIsSmall = window.innerWidth < 1000 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     $scope.showInput = false;
     $scope.siteData = {};
     $scope.siteNumber = 13022500;
@@ -41,56 +39,30 @@ angular.module('myApp.flows', ['ngRoute'])
             siteNumber: $scope.siteNumber,
             streamFlow: $scope.streamFlow
         };
-        console.log($scope.siteData)
     };
-
-
-
-    //13023000
     var addSiteToList = function() {
         $scope.hideLastButton = false
-
     };
-
-
-
-
     $scope.alerts = [];
     var apiCall = function (siteNumber, doWhat) {
         $http.get("http://waterservices.usgs.gov/nwis/iv/?format=json&sites=" + siteNumber + "&variable=00060,00065").
-        success(function(data) {
-        //console.log(data.value.timesSeries[0].sourceInfo.siteName);
-            assignFlows(data);
-            var Site = {
-                site: $scope.siteNumber,
-                description: $scope.description
-            };
-
-            Restangular.all('add-site/').customPOST(Site).then(function () {
-
-            },
+            success(function(data) {
+                assignFlows(data);
+                var Site = {
+                    site: $scope.siteNumber,
+                    description: $scope.description
+                };
+                Restangular.all('add-site/').customPOST(Site).then(function () {},
             function () {
                 console.log(Site.description);
                 console.log(Site.site)
             });
-
-
             addSiteToList()
         })
-        .error(function(data) {
-
-        });
-
+        .error(function(data) {});
     };
-
     $scope.addSiteToDataBase = function (siteNumber) {
         $scope.showInput = false;
         apiCall($scope.siteNumber=siteNumber)
-
     };
-
-
-
 }]);
-
-

@@ -1,20 +1,19 @@
-<div >
-
-    <h2>stream flows</h2>
-
-    <input placeholder="search" ng-model="searchTerm"/>
-
-    <ul class="grow">
-
-         <li ng-repeat="site in siteData | orderBy:'description' | filter:searchTerm">
-
-             <button class="btn btn-default" data-sr><span ng-show="showCFS">{{ site.streamFlow }} -- </span>{{site.description}} -- {{ site.streamFlow }} cfs</button>
-         </li>
-    </ul>
 
 
-    <button class="btn" ng-hide="showInput" ng-click="showInput = !showInput">can't find a site?</button>
-    <button class = "add-site-button btn" ng-show="showInput" ng-click="addSiteToDataBase(siteNumber)">add site to database</button>
+<h2>stream flows</h2>
 
-    <input class = "btn btn-default add-site-input" ng-show="showInput" placeholder="site number" ng-model="siteNumber"/>
-</div>
+<input placeholder="search" ng-model="searchTerm"/>
+
+<ul>
+
+     <li ng-repeat="site in siteData | orderBy:'description' | filter:searchTerm">
+
+         <button class="btn btn-default" data-sr><span ng-show="showCfsWhenScreenIsSmall">{{ site.streamFlow }} -- </span>{{site.description}} -- {{ site.streamFlow }} cfs</button>
+     </li>
+</ul>
+
+
+<button class="btn" ng-hide="showInput" ng-click="showInput = !showInput">can't find a site?</button>
+<button class = "add-site-button btn" ng-show="showInput" ng-click="addSiteToDataBase(siteNumber)">add site to database</button>
+
+<input class = "btn btn-default add-site-input" ng-show="showInput" placeholder="site number" ng-model="siteNumber"/>
