@@ -8,8 +8,7 @@
 
          <li ng-repeat="site in siteData | orderBy:'description' | filter:searchTerm">
 
-             <button class="btn btn-default" data-sr>{{site.description}} -- {{ site.streamFlow }} cfs</button>
-             <button class="btn btn-default btn-xs" ng-show="showCFS"> {{ site.streamFlow }}</button>
+             <button class="btn btn-default" data-sr><span ng-show="showCFS">{{ site.streamFlow }} -- </span>{{site.description}} -- {{ site.streamFlow }} cfs</button>
          </li>
     </ul>
 
