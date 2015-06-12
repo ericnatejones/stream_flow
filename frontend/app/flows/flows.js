@@ -17,7 +17,7 @@ angular.module('myApp.flows', ['ngRoute'])
     $scope.siteNumber = 13022500;
     $scope.siteCounter = 0;
 
-    Restangular.all('sites/').then(function (data) {
+    Restangular.all('sites/').getList().then(function (data) {
         $scope.sites = data;
         $scope.sites.flow = '';
         for (var i = 0; i < $scope.sites.length; i++) {
