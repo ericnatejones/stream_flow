@@ -49,6 +49,7 @@ ul li:nth-child(odd) {
 }
 
 .add-site-input {
+    margin-top: 10px;
     max-width: 14%;
 }
 .login-button {
