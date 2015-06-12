@@ -10,8 +10,7 @@ angular.module('myApp.flows', ['ngRoute'])
 }])
 
 .controller('FlowsCtrl', ['$scope', 'Restangular', '$http', function($scope, Restangular, $http) {
-
-
+    $scope.showCFS = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     $scope.showInput = false;
     $scope.siteData = {};
     $scope.siteNumber = 13022500;
