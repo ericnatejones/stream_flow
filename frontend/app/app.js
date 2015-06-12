@@ -6,7 +6,7 @@ angular.module('myApp', [
     'myApp.flows',
     'ui.bootstrap',
     'myApp.version',
-    'restangular'
+    'restangular',
 
 
 ]).
@@ -16,3 +16,5 @@ angular.module('myApp', [
 
         RestangularProvider.setBaseUrl('http://localhost:8001')
     }]);
+
+var baseURL = 'http://localhost:8001/';
