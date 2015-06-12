@@ -6,7 +6,7 @@ angular.module('myApp', [
     'myApp.flows',
     'ui.bootstrap',
     'myApp.version',
-    'restangular',
+    'restangular'
 
 
 ]).
@@ -14,7 +14,6 @@ angular.module('myApp', [
     config(['$routeProvider', 'RestangularProvider', function ($routeProvider, RestangularProvider) {
         $routeProvider.otherwise({redirectTo: '/flows'});
 
-        RestangularProvider.setBaseUrl('/api/')
+        RestangularProvider.setBaseUrl('/api')
     }]);
 
-var baseURL = '/api/';
