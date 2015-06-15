@@ -1,7 +1,7 @@
 <h2>stream flows</h2>
 <input placeholder="search" ng-model="searchText"/>
 <ul>
-    <li ng-repeat="site in siteData | filter:searchText">
+    <li ng-repeat="site in siteData | orderBy: 'description' | filter:searchText">
          <button class="btn btn-default" data-sr>
              <span ng-show="showCfsWhenScreenIsSmall">
                  {{ site.streamFlow }} --
