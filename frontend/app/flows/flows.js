@@ -14,7 +14,6 @@ angular.module('myApp.flows', ['ngRoute'])
     $scope.showInput = false;
     $scope.siteData = [];
     $scope.siteNumber = 13022500;
-    $scope.siteCounter = 0;
 
     Restangular.all('sites/').getList().then(function (data) {
         $scope.sites = data;
@@ -32,12 +31,13 @@ angular.module('myApp.flows', ['ngRoute'])
         $scope.description = siteInfo.value.timeSeries[0].sourceInfo.siteName;
         $scope.siteNumber = siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value;
         $scope.streamFlow = siteInfo.value.timeSeries[0].values[0].value[0].value;
-        $scope.siteCounter += 1;
-        $scope.siteData[$scope.siteCounter] = {
+        $scope.currentSiteData = {
             description: $scope.description,
             siteNumber: $scope.siteNumber,
             streamFlow: $scope.streamFlow
         };
+        $scope.siteData.push($scope.currentSiteData);
+
     };
     var addSiteToList = function() {
         $scope.hideLastButton = false
