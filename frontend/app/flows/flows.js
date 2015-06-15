@@ -13,7 +13,7 @@ angular.module('myApp.flows', ['ngRoute'])
     $scope.searchTerm = '';
     $scope.showCfsWhenScreenIsSmall = window.innerWidth < 1000 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     $scope.showInput = false;
-    $scope.siteData = {};
+    $scope.siteData = [];
     $scope.siteNumber = 13022500;
     $scope.siteCounter = 0;
 
