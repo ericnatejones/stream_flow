@@ -11,7 +11,6 @@ angular.module('myApp.flows', ['ngRoute'])
 
 .controller('FlowsCtrl', ['$scope', 'Restangular', '$http', function($scope, Restangular, $http) {
     $scope.showCfsWhenScreenIsSmall = window.innerWidth < 1000 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    $scope.showInput = false;
     $scope.siteData = [];
     $scope.siteNumber = 13022500;
 
@@ -28,19 +27,13 @@ angular.module('myApp.flows', ['ngRoute'])
 
     });
     var assignFlows = function(siteInfo){
-        $scope.description = siteInfo.value.timeSeries[0].sourceInfo.siteName;
-        $scope.siteNumber = siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value;
-        $scope.streamFlow = siteInfo.value.timeSeries[0].values[0].value[0].value;
         $scope.currentSiteData = {
-            description: $scope.description,
-            siteNumber: $scope.siteNumber,
-            streamFlow: $scope.streamFlow
+            description: siteInfo.value.timeSeries[0].sourceInfo.siteName,
+            siteNumber: siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value,
+            streamFlow: siteInfo.value.timeSeries[0].values[0].value[0].value
         };
         $scope.siteData.push($scope.currentSiteData);
 
-    };
-    var addSiteToList = function() {
-        $scope.hideLastButton = false
     };
     var apiCall = function (siteNumber) {
         $http.get("http://waterservices.usgs.gov/nwis/iv/?format=json&sites=" + siteNumber + "&variable=00060,00065").
@@ -55,12 +48,12 @@ angular.module('myApp.flows', ['ngRoute'])
                 console.log(Site.description);
                 console.log(Site.site)
             });
-            addSiteToList()
         })
         .error(function(data) {});
     };
     $scope.addSiteToDataBase = function (siteNumber) {
         $scope.showInput = false;
-        apiCall($scope.siteNumber=siteNumber)
+        apiCall($scope.siteNumber=siteNumber);
+        $scope.hideLastButton = false
     };
 }]);
