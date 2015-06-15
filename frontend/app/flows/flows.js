@@ -10,7 +10,6 @@ angular.module('myApp.flows', ['ngRoute'])
 }])
 
 .controller('FlowsCtrl', ['$scope', 'Restangular', '$http', function($scope, Restangular, $http) {
-    $scope.searchTerm = '';
     $scope.showCfsWhenScreenIsSmall = window.innerWidth < 1000 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     $scope.showInput = false;
     $scope.siteData = [];
@@ -43,8 +42,7 @@ angular.module('myApp.flows', ['ngRoute'])
     var addSiteToList = function() {
         $scope.hideLastButton = false
     };
-    $scope.alerts = [];
-    var apiCall = function (siteNumber, doWhat) {
+    var apiCall = function (siteNumber) {
         $http.get("http://waterservices.usgs.gov/nwis/iv/?format=json&sites=" + siteNumber + "&variable=00060,00065").
             success(function(data) {
                 assignFlows(data);
