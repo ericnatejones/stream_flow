@@ -11,10 +11,8 @@ angular.module('myApp.flows', ['ngRoute'])
 
 .controller('FlowsCtrl', ['$scope', 'Restangular', '$http', function($scope, Restangular, $http) {
     $scope.showCfsWhenScreenIsSmall = window.innerWidth < 1000 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    $scope.showInput = false;
     $scope.siteData = [];
     $scope.siteNumber = 13022500;
-    $scope.siteCounter = 0;
 
     Restangular.all('sites/').getList().then(function (data) {
         $scope.sites = data;
@@ -29,18 +27,13 @@ angular.module('myApp.flows', ['ngRoute'])
 
     });
     var assignFlows = function(siteInfo){
-        $scope.description = siteInfo.value.timeSeries[0].sourceInfo.siteName;
-        $scope.siteNumber = siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value;
-        $scope.streamFlow = siteInfo.value.timeSeries[0].values[0].value[0].value;
-        $scope.siteCounter += 1;
-        $scope.siteData[$scope.siteCounter] = {
-            description: $scope.description,
-            siteNumber: $scope.siteNumber,
-            streamFlow: $scope.streamFlow
+        $scope.currentSiteData = {
+            description: siteInfo.value.timeSeries[0].sourceInfo.siteName,
+            siteNumber: siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value,
+            streamFlow: siteInfo.value.timeSeries[0].values[0].value[0].value
         };
-    };
-    var addSiteToList = function() {
-        $scope.hideLastButton = false
+        $scope.siteData.push($scope.currentSiteData);
+
     };
     var apiCall = function (siteNumber) {
         $http.get("http://waterservices.usgs.gov/nwis/iv/?format=json&sites=" + siteNumber + "&variable=00060,00065").
@@ -55,12 +48,12 @@ angular.module('myApp.flows', ['ngRoute'])
                 console.log(Site.description);
                 console.log(Site.site)
             });
-            addSiteToList()
         })
         .error(function(data) {});
     };
     $scope.addSiteToDataBase = function (siteNumber) {
         $scope.showInput = false;
-        apiCall($scope.siteNumber=siteNumber)
+        apiCall($scope.siteNumber=siteNumber);
+        $scope.hideLastButton = false
     };
 }]);
