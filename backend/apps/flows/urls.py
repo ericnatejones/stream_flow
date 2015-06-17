@@ -9,8 +9,7 @@ urlpatterns = [
     url(r'^add-site/$', AddSite.as_view(), name='add-site'),
     url(r'^sites/$', SiteList.as_view(), name='site-list'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^api-token-auth/', views.obtain_auth_token),
-    url(r'^get-user-info/', GetUserInfo.as_view())
+
 
 
 ]
