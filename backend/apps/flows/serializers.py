@@ -8,6 +8,12 @@ class SiteSerializer(serializers.ModelSerializer):
         model = Site
 
 
+class AccountSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Account
+
+
 
 
 

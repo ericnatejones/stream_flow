@@ -1,15 +1,51 @@
+<span ng-show="user.username">Welcome</span> {{ user.username }} {{ user.id }}
+<br ng-show="user.username">
+<span ng-hide="user.username">
+   <button class="btn" ng-hide="showLogin" ng-click="showLogin = !showLogin">
+    login/register
+    </button>
+</span>
+<button class="btn" ng-show="user.username" ng-click="logout()">
+    logout
+</button>
+<input class = "btn btn-default login-input" ng-show="showLogin" placeholder="user name" ng-model="username"/>
+<input class = "btn btn-default login-input" ng-show="showLogin" placeholder="password" ng-model="password"/>
+<br ng-show="showLogin">
+<button class = "login-button btn" ng-show="showLogin" ng-click="authenticate(username, password)">
+    login
+</button>
+<br ng-show="showLogin">
+<button class = "login-button btn" ng-show="showLogin" ng-click="addAccount(username, password)">
+    register
+</button>
 <h2>stream flows</h2>
 <input placeholder="search" ng-model="searchText"/>
+<br>
 <ul>
-    <li ng-repeat="site in siteData | orderBy:'description' | filter:searchText">
-        <button class="btn btn-default" data-sr>
+    <li ng-repeat="site in currentFavorites | filter:searchText">
+        <span class="glyphicon glyphicon-star"></span>
+        <button class="btn btn-default" ng-click="removeFavorite(site.description)">
              <span ng-show="showCfsWhenScreenIsSmall">
                  {{ site.streamFlow }} --
              </span>
+            <span> {{ site.favorited_by }}</span>
              {{site.description}} -- {{ site.streamFlow }} cfs
-         </button>
+        </button>
+        <span class="glyphicon glyphicon-star"></span>
+    </li>
+
+
+    <li ng-repeat="site in siteData | orderBy:'description' | filter:searchText">
+        <button class="btn btn-default" ng-click="favorite(site.description)">
+             <span ng-show="showCfsWhenScreenIsSmall">
+                 {{ site.streamFlow }} --
+             </span>
+            <span> {{ site.favorited_by }}</span>
+             {{site.description}} -- {{ site.streamFlow }} cfs
+        </button>
     </li>
 </ul>
+
 <button class="btn" ng-hide="showInput" ng-click="showInput = !showInput">
     can't find a site?
 </button>

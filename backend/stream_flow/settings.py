@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'apps.flows',
     'rest_framework',
     'corsheaders',
-    'apps.authentication',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -112,4 +111,3 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
-AUTH_USER_MODEL = 'authentication.Account'
