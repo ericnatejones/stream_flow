@@ -22,8 +22,30 @@
 <input placeholder="search" ng-model="searchText"/>
 <br>
 <ul>
-    <li ng-repeat="site in currentFavorites | filter:searchText">
-        <span class="glyphicon glyphicon-star"></span>
+    <li ng-show="site.lowerParameter<site.streamFlow<site.upperParameter" ng-repeat="site in currentFavorites |
+    filter:searchText">
+        <input class = "btn btn-default parameters-input"
+               placeholder="lower parameter"
+               ng-model="site.lowerParameter"
+               type="number">
+        <button class="btn btn-success" ng-click="removeFavorite(site.description)">
+             <span ng-show="showCfsWhenScreenIsSmall">
+                 {{ site.streamFlow }} --
+             </span>
+            <span> {{ site.favorited_by }}</span>
+             {{site.description}} -- {{ site.streamFlow }} cfs
+        </button>
+        <input class = "btn btn-default parameters-input"
+               placeholder="upper parameter"
+               ng-model="site.upperParameter"
+               type="number">
+    </li>
+    <li ng-hide="site.lowerParameter<site.streamFlow<site.upperParameter"  ng-repeat="site in currentFavorites |
+    filter:searchText">
+        <input class = "btn btn-default parameters-input"
+               placeholder="lower parameter"
+               ng-model="site.lowerParameter"
+               type="number">
         <button class="btn btn-default" ng-click="removeFavorite(site.description)">
              <span ng-show="showCfsWhenScreenIsSmall">
                  {{ site.streamFlow }} --
@@ -31,7 +53,10 @@
             <span> {{ site.favorited_by }}</span>
              {{site.description}} -- {{ site.streamFlow }} cfs
         </button>
-        <span class="glyphicon glyphicon-star"></span>
+        <input class = "btn btn-default parameters-input"
+               placeholder="upper parameter"
+               ng-model="site.upperParameter"
+               type="number">
     </li>
 
 

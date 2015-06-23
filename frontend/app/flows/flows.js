@@ -110,7 +110,9 @@ angular.module('myApp.flows', ['ngRoute'])
         $scope.currentSiteData = {
             description: siteInfo.value.timeSeries[0].sourceInfo.siteName,
             siteNumber: siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value,
-            streamFlow: siteInfo.value.timeSeries[0].values[0].value[0].value
+            streamFlow: parseInt(siteInfo.value.timeSeries[0].values[0].value[0].value),
+            lowerParameter: 0,
+            upperParameter: 0
         };
         $scope.siteData.push($scope.currentSiteData);
 
