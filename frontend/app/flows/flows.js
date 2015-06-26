@@ -15,17 +15,37 @@ angular.module('myApp.flows', ['ngRoute'])
     $scope.siteNumber = 13022500;
     var problemWithLoggingIn = "";
     var problemWithRegistration = "";
-
     $scope.currentFavorites = [];
+    $scope.user = {
+        username: '',
+        password: ''
+    };
+    $scope.isFlowInParameters = function (site) {
+        return site.lowerParameter < site.streamFlow && site.streamFlow < site.upperParameter
+    };
+    Restangular.all('parameters/').getList().then(function (parameters) {
+        $scope.parameters = parameters
+    });
     Restangular.all('accounts/').getList().then(function (accounts) {
-
         $scope.accounts = accounts;
-        for (var i = 0; i < $scope.accounts.length; i++){
+    });
+    $scope.authenticate = function (username, password) {
+
+        for ( var num = 0; num < $scope.sites.length; num++) {
+            for (var number = 0; number <$scope.siteData.length; number++){
+                if ($scope.siteData[number].description == $scope.sites[num].description){
+                       $scope.siteData[num].id  = $scope.sites[num].id
+                }
+            }
+            for (number = 0; number <$scope.currentFavorites.length; number++) {
+                if ($scope.currentFavorites[number].description == $scope.sites[num].description){
+                       $scope.currentFavorites[num].id  = $scope.sites[num].id
+                }
+            }
 
         }
-    });
 
-    $scope.authenticate = function (username, password) {
+
         for(var i = 0; i < $scope.accounts.length; i++) {
             if ($scope.accounts[i].username == username) {
                 if ($scope.accounts[i].password == password) {
@@ -46,6 +66,21 @@ angular.module('myApp.flows', ['ngRoute'])
         } else {
             alert (problemWithLoggingIn)
         }
+        //for (i = 0; i < $scope.sites.length; i++){
+        $scope.favorite($scope.sites[i].description);
+        //}
+        for (i = 0; i < $scope.parameters.length; i++){
+            if ($scope.parameters[i].account == $scope.user.id){
+                for (var thisNum = 0; thisNum < $scope.currentFavorites.length; thisNum++){
+                    if ($scope.parameters[i].site == $scope.currentFavorites[thisNum].id){
+                        $scope.currentFavorites[thisNum].upperParameter = $scope.parameters[i].upper_parameter;
+                        $scope.currentFavorites[thisNum].lowerParameter = $scope.parameters[i].lower_parameter
+
+                    }
+
+                }
+            }
+        }
     };
 
     $scope.addAccount = function () {
@@ -65,6 +100,7 @@ angular.module('myApp.flows', ['ngRoute'])
                 var Account = {
                     username: $scope.username,
                     password: $scope.password
+
                 };
                 Restangular.all('add-account/').customPOST(Account).then(function () {
                         $scope.showLogin = false;
@@ -90,19 +126,27 @@ angular.module('myApp.flows', ['ngRoute'])
         $scope.user = {
             username: '',
             password: ''
+        };
+        for (var i =0; i <  $scope.currentFavorites.length; i++){
+            $scope.removeFavorite($scope.currentFavorites[i].description)
         }
     };
-
-
     Restangular.all('sites/').getList().then(function (data) {
         $scope.sites = data;
-        $scope.sites.flow = '';
+
         for (var i = 0; i < $scope.sites.length; i++) {
+            $scope.currentSiteData = {
+                description: $scope.sites[i].description,
+                siteNumber: $scope.sites[i].site,
+                streamFlow: 0,
+                lowerParameter: '',
+                upperParameter: '',
+                id: ''
+            };
             $http.get("http://waterservices.usgs.gov/nwis/iv/?format=json&sites=" + $scope.sites[i].site + "&variable=00060,00065").
             success(function (data) {
                 assignFlows(data)
             });
-
         }
 
     });
@@ -111,8 +155,8 @@ angular.module('myApp.flows', ['ngRoute'])
             description: siteInfo.value.timeSeries[0].sourceInfo.siteName,
             siteNumber: siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value,
             streamFlow: parseInt(siteInfo.value.timeSeries[0].values[0].value[0].value),
-            lowerParameter: 0,
-            upperParameter: 0
+            lowerParameter: '',
+            upperParameter: ''
         };
         $scope.siteData.push($scope.currentSiteData);
 
@@ -123,7 +167,8 @@ angular.module('myApp.flows', ['ngRoute'])
                 assignFlows(data);
                 var Site = {
                     site: $scope.siteNumber,
-                    description: $scope.description
+                    description: $scope.currentSiteData.description,
+                    favorited_by: $scope.user.username
                 };
                 Restangular.all('add-site/').customPOST(Site).then(function () {},
             function () {
@@ -137,17 +182,22 @@ angular.module('myApp.flows', ['ngRoute'])
         $scope.showInput = false;
         apiCall($scope.siteNumber=siteNumber);
     };
-
     $scope.favorite = function (site){
-        for(var i = 0; i < $scope.siteData.length; i++) {
-            if ($scope.siteData[i].description === site) {
-                $scope.currentFavorites.push($scope.siteData[i]);
+        if ($scope.user.username){
+            for(var i = 0; i < $scope.siteData.length; i++) {
+                if ($scope.siteData[i].description === site) {
+                    $scope.currentFavorites.push($scope.siteData[i]);
 
-                $scope.siteData.splice(i, 1);
-                break;
+                    $scope.siteData.splice(i, 1);
+                    break;
+                }
             }
+        } else {
+            alert("log in to favorite a site")
         }
-    }
+
+
+    };
     $scope.removeFavorite = function (site){
         for(var i = 0; i < $scope.currentFavorites.length; i++) {
             if ($scope.currentFavorites[i].description === site) {

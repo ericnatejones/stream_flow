@@ -14,6 +14,12 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
 
 
+class ParameterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Parameter
+
+
 
 
 
