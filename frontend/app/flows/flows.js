@@ -9,13 +9,15 @@ angular.module('myApp.flows', ['ngRoute'])
   });
 }])
 
-.controller('FlowsCtrl', ['$scope', 'Restangular', '$http', function($scope, Restangular, $http) {
+.controller('FlowsCtrl', ['$scope', '$http', function($scope, $http) {
+    var api = "http://localhost:8001/";
     $scope.showCfsWhenScreenIsSmall = window.innerWidth < 1000 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     $scope.siteData = [];
     $scope.siteNumber = 13022500;
     var problemWithLoggingIn = "";
     var problemWithRegistration = "";
     $scope.currentFavorites = [];
+    $scope.siteForEdit = [];
     $scope.user = {
         username: '',
         password: ''
@@ -23,10 +25,10 @@ angular.module('myApp.flows', ['ngRoute'])
     $scope.isFlowInParameters = function (site) {
         return site.lowerParameter < site.streamFlow && site.streamFlow < site.upperParameter
     };
-    Restangular.all('parameters/').getList().then(function (parameters) {
+    $http.get(api+'parameters/').success(function (parameters) {
         $scope.parameters = parameters
     });
-    Restangular.all('accounts/').getList().then(function (accounts) {
+    $http.get(api+'accounts/').success(function (accounts) {
         $scope.accounts = accounts;
     });
     $scope.authenticate = function (username, password) {
@@ -34,12 +36,12 @@ angular.module('myApp.flows', ['ngRoute'])
         for ( var num = 0; num < $scope.sites.length; num++) {
             for (var number = 0; number <$scope.siteData.length; number++){
                 if ($scope.siteData[number].description == $scope.sites[num].description){
-                       $scope.siteData[num].id  = $scope.sites[num].id
+                       $scope.siteData[number].id  = $scope.sites[num].id
                 }
             }
             for (number = 0; number <$scope.currentFavorites.length; number++) {
                 if ($scope.currentFavorites[number].description == $scope.sites[num].description){
-                       $scope.currentFavorites[num].id  = $scope.sites[num].id
+                       $scope.currentFavorites[number].id  = $scope.sites[num].id
                 }
             }
 
@@ -62,12 +64,19 @@ angular.module('myApp.flows', ['ngRoute'])
             }
         }
         if (problemWithLoggingIn == ""){
-            console.log("good login")
+            toastr.info("good login")
         } else {
-            alert (problemWithLoggingIn)
+            toastr.warning (problemWithLoggingIn)
         }
         //for (i = 0; i < $scope.sites.length; i++){
-        $scope.favorite($scope.sites[i].description);
+        for(var variableI = 0; variableI < $scope.siteData.length; i++) {
+            if ($scope.currentFavorites[variableI].description === site) {
+                $scope.currentFavorites.push($scope.siteData[variableI]);
+
+                $scope.siteData.splice(i, 1);
+                break;
+            }
+        }
         //}
         for (i = 0; i < $scope.parameters.length; i++){
             if ($scope.parameters[i].account == $scope.user.id){
@@ -102,11 +111,11 @@ angular.module('myApp.flows', ['ngRoute'])
                     password: $scope.password
 
                 };
-                Restangular.all('add-account/').customPOST(Account).then(function () {
+                $http.post(api+'add-account/', Account).success(function () {
                         $scope.showLogin = false;
                         $scope.user = Account;
                         $scope.accounts.push(Account);
-                        alert("You sir, were added as a user. ")
+                        toastr.info("You sir, were added as a user. ")
                     },
                     function () {
                         console.log(Account.username);
@@ -119,25 +128,25 @@ angular.module('myApp.flows', ['ngRoute'])
                 "know what your favorite rivers are? Get over it. ")
             }
         } else {
-            alert(problemWithRegistration);
+            toastr.warning(problemWithRegistration);
         }
     };
     $scope.logout = function () {
-        $scope.user = {
-            username: '',
-            password: ''
-        };
+        $scope.user.username = '';
+        $scope.user.password = '';
+
         for (var i =0; i <  $scope.currentFavorites.length; i++){
             $scope.removeFavorite($scope.currentFavorites[i].description)
         }
     };
-    Restangular.all('sites/').getList().then(function (data) {
+    $http.get(api+'sites/').success(function (data) {
         $scope.sites = data;
 
         for (var i = 0; i < $scope.sites.length; i++) {
             $scope.currentSiteData = {
                 description: $scope.sites[i].description,
                 siteNumber: $scope.sites[i].site,
+                favoritedBy: $scope.sites[i].favorited_by,
                 streamFlow: 0,
                 lowerParameter: '',
                 upperParameter: '',
@@ -151,12 +160,15 @@ angular.module('myApp.flows', ['ngRoute'])
 
     });
     var assignFlows = function(siteInfo){
+
         $scope.currentSiteData = {
             description: siteInfo.value.timeSeries[0].sourceInfo.siteName,
             siteNumber: siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value,
+            favoritedBy: [],
             streamFlow: parseInt(siteInfo.value.timeSeries[0].values[0].value[0].value),
             lowerParameter: '',
-            upperParameter: ''
+            upperParameter: '',
+            id: ''
         };
         $scope.siteData.push($scope.currentSiteData);
 
@@ -170,7 +182,7 @@ angular.module('myApp.flows', ['ngRoute'])
                     description: $scope.currentSiteData.description,
                     favorited_by: $scope.user.username
                 };
-                Restangular.all('add-site/').customPOST(Site).then(function () {},
+                $http.post(api+'add-site/', Site).success(function () {},
             function () {
                 console.log(Site.description);
                 console.log(Site.site)
@@ -193,7 +205,7 @@ angular.module('myApp.flows', ['ngRoute'])
                 }
             }
         } else {
-            alert("log in to favorite a site")
+            toastr.warning("log in to favorite a site")
         }
 
 
@@ -207,6 +219,6 @@ angular.module('myApp.flows', ['ngRoute'])
                 break;
             }
         }
-    }
+    };
 
 }]);

@@ -7,7 +7,7 @@ class SiteList(generics.ListAPIView):
     queryset = Site.objects.all()
 
 
-class SiteUpdate(generics.ListAPIView):
+class SiteUpdate(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SiteSerializer
     queryset = Site.objects.all()
 

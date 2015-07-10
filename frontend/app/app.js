@@ -5,14 +5,12 @@ angular.module('myApp', [
     'ngRoute',
     'myApp.flows',
     'ui.bootstrap',
-    'myApp.version',
-    'restangular'
+    'myApp.version'
 
 
 ]).
 
-    config(['$routeProvider', 'RestangularProvider', function ($routeProvider, RestangularProvider) {
+    config(['$routeProvider',  function ($routeProvider) {
         $routeProvider.otherwise({redirectTo: '/flows'});
-        RestangularProvider.setBaseUrl('http://localhost:8001')
     }]);
 

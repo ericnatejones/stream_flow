@@ -2,10 +2,10 @@
 <br ng-show="user.username">
 <span ng-hide="user.username">
    <button class="btn" ng-hide="showLogin" ng-click="showLogin = !showLogin">
-    login/register
+    login/sign up
     </button>
 </span>
-<button class="btn" ng-show="user.username" ng-click="logout()">
+<button class="login-button btn" ng-show="user.username" ng-click="logout()">
     logout
 </button>
 <input class = "btn btn-default login-input" ng-show="showLogin" placeholder="user name" ng-model="username"/>
