@@ -69,14 +69,8 @@ angular.module('myApp.flows', ['ngRoute'])
             toastr.warning (problemWithLoggingIn)
         }
         //for (i = 0; i < $scope.sites.length; i++){
-        for(var variableI = 0; variableI < $scope.siteData.length; i++) {
-            if ($scope.currentFavorites[variableI].description === site) {
-                $scope.currentFavorites.push($scope.siteData[variableI]);
-
-                $scope.siteData.splice(i, 1);
-                break;
-            }
-        }
+        $scope.sites[i].description = "yo"
+        $scope.favorite($scope.sites[i].description);
         //}
         for (i = 0; i < $scope.parameters.length; i++){
             if ($scope.parameters[i].account == $scope.user.id){
@@ -146,7 +140,6 @@ angular.module('myApp.flows', ['ngRoute'])
             $scope.currentSiteData = {
                 description: $scope.sites[i].description,
                 siteNumber: $scope.sites[i].site,
-                favoritedBy: $scope.sites[i].favorited_by,
                 streamFlow: 0,
                 lowerParameter: '',
                 upperParameter: '',
@@ -164,7 +157,6 @@ angular.module('myApp.flows', ['ngRoute'])
         $scope.currentSiteData = {
             description: siteInfo.value.timeSeries[0].sourceInfo.siteName,
             siteNumber: siteInfo.value.timeSeries[0].sourceInfo.siteCode[0].value,
-            favoritedBy: [],
             streamFlow: parseInt(siteInfo.value.timeSeries[0].values[0].value[0].value),
             lowerParameter: '',
             upperParameter: '',
