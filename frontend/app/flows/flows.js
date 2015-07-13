@@ -43,8 +43,9 @@ angular.module('myApp.flows', ['ngRoute'])
         }
         if (problemWithLoggingIn == ""){
             console.log("good login")
+            toastr.success("good login")
         } else {
-            alert (problemWithLoggingIn)
+            toastr.warning (problemWithLoggingIn)
         }
     };
 
@@ -70,7 +71,7 @@ angular.module('myApp.flows', ['ngRoute'])
                         $scope.showLogin = false;
                         $scope.user = Account;
                         $scope.accounts.push(Account);
-                        alert("You sir, were added as a user. ")
+                        toastr.success("You sir, were added as a user. ")
                     },
                     function () {
                         console.log(Account.username);
@@ -83,7 +84,7 @@ angular.module('myApp.flows', ['ngRoute'])
                 "know what your favorite rivers are? Get over it. ")
             }
         } else {
-            alert(problemWithRegistration);
+            toastr.warning(problemWithRegistration);
         }
     };
     $scope.logout = function () {
