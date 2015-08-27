@@ -7,6 +7,11 @@ class SiteList(generics.ListAPIView):
     queryset = Site.objects.all()
 
 
+class SiteUpdate(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = SiteSerializer
+    queryset = Site.objects.all()
+
+
 class AccountList(generics.ListAPIView):
     accounts = Account.objects.all()
     serializer_class = AccountSerializer
@@ -20,3 +25,9 @@ class AddSite(generics.CreateAPIView):
 class AddAccount(generics.CreateAPIView):
     accounts = Account.objects.all()
     serializer_class = AccountSerializer
+
+
+class ParameterList(generics.ListCreateAPIView):
+    parameter = Parameter.objects.all()
+    queryset = Parameter.objects.all()
+    serializer_class = ParameterSerializer

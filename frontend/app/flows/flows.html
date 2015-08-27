@@ -1,11 +1,15 @@
+<<<<<<< HEAD
 <span ng-show="user.username">Welcome</span> {{ user.username }}
+=======
+<span ng-show="user.username">welcome</span> {{ user.username }}
+>>>>>>> save_favorites
 <br ng-show="user.username">
 <span ng-hide="user.username">
    <button class="btn" ng-hide="showLogin" ng-click="showLogin = !showLogin">
-    login/register
+    login/sign up
     </button>
 </span>
-<button class="btn" ng-show="user.username" ng-click="logout()">
+<button class="login-button btn" ng-show="user.username" ng-click="logout()">
     logout
 </button>
 <input class = "btn btn-default login-input" ng-show="showLogin" placeholder="user name" ng-model="username"/>
@@ -22,31 +26,21 @@
 <input placeholder="search" ng-model="searchText"/>
 <br>
 <ul>
-    <li ng-show="site.lowerParameter<site.streamFlow<site.upperParameter" ng-repeat="site in currentFavorites |
-    filter:searchText">
+    <li ng-repeat="site in currentFavorites | filter:searchText" >
         <input class = "btn btn-default parameters-input"
                placeholder="lower parameter"
                ng-model="site.lowerParameter"
                type="number">
-        <button class="btn btn-success" ng-click="removeFavorite(site.description)">
+        <button class="btn btn-success" ng-click="removeFavorite(site.description)"
+                ng-show="isFlowInParameters(site)">
              <span ng-show="showCfsWhenScreenIsSmall">
                  {{ site.streamFlow }} --
              </span>
             <span> {{ site.favorited_by }}</span>
              {{site.description}} -- {{ site.streamFlow }} cfs
         </button>
-        <input class = "btn btn-default parameters-input"
-               placeholder="upper parameter"
-               ng-model="site.upperParameter"
-               type="number">
-    </li>
-    <li ng-hide="site.lowerParameter<site.streamFlow<site.upperParameter"  ng-repeat="site in currentFavorites |
-    filter:searchText">
-        <input class = "btn btn-default parameters-input"
-               placeholder="lower parameter"
-               ng-model="site.lowerParameter"
-               type="number">
-        <button class="btn btn-default" ng-click="removeFavorite(site.description)">
+        <button class="btn btn-default" ng-click="removeFavorite(site.description)"
+                ng-hide="isFlowInParameters(site)">
              <span ng-show="showCfsWhenScreenIsSmall">
                  {{ site.streamFlow }} --
              </span>
