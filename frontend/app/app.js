@@ -1,7 +1,7 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+var myApp = angular.module('myApp', [
     'ngRoute',
     'myApp.flows',
     'ui.bootstrap',
@@ -14,3 +14,4 @@ angular.module('myApp', [
         $routeProvider.otherwise({redirectTo: '/flows'});
     }]);
 
+var api = "http://localhost:8001/";

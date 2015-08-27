@@ -20,6 +20,26 @@ class ParameterSerializer(serializers.ModelSerializer):
         model = Parameter
 
 
+class NestedParameterSerializer(serializers.ModelSerializer):
+
+    site = SiteSerializer()
+
+    class Meta:
+        model = Parameter
+
+
+class NestedAccountsSerializer(serializers.ModelSerializer):
+
+    sites = NestedParameterSerializer(source="parameters", many=True)
+
+    class Meta:
+        model = Account
+
+
+
+
+
+
 
 
 

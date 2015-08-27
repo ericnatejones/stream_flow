@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^accounts/$', AccountList.as_view(), name='account-list'),
     url(r'^parameters/$', ParameterList.as_view(), name='parameter-list'),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^everything/', Everything.as_view(), name='everything-list')
 
 ]
