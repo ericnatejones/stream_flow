@@ -15,4 +15,4 @@ var myApp = angular.module('myApp', [
 
     }]);
 
-var api = "/api";
+var api = "/api/";
