@@ -1,19 +1,17 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+var myApp = angular.module('myApp', [
     'ngRoute',
     'myApp.flows',
     'ui.bootstrap',
-    'myApp.version',
-    'restangular'
+    'myApp.version'
 
 
 ]).
 
-    config(['$routeProvider', 'RestangularProvider', function ($routeProvider, RestangularProvider) {
+    config(['$routeProvider',  function ($routeProvider) {
         $routeProvider.otherwise({redirectTo: '/flows'});
-        RestangularProvider.setBaseUrl('/api');
-        RestangularProvider.setRequestSuffix('/');
     }]);
 
+var api = "http://localhost:8001/";

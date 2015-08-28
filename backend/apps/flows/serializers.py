@@ -1,18 +1,43 @@
 from rest_framework import serializers
 from models import *
-from django.contrib.auth.models import User
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'first_name', 'last_name', 'username', 'email')
 
 
 class SiteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Site
+
+
+class AccountSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Account
+
+
+class ParameterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Parameter
+
+
+class NestedParameterSerializer(serializers.ModelSerializer):
+
+    site = SiteSerializer()
+
+    class Meta:
+        model = Parameter
+
+
+class NestedAccountsSerializer(serializers.ModelSerializer):
+
+    sites = NestedParameterSerializer(source="parameters", many=True)
+
+    class Meta:
+        model = Account
+
+
+
+
 
 
 

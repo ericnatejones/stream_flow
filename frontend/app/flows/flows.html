@@ -1,15 +1,68 @@
+
+<span ng-show="user.username">welcome</span>
+{{ user.username }}
+<br ng-show="user.username">
+<span ng-hide="user.username">
+   <button class="btn" ng-hide="showLogin" ng-click="showLogin = !showLogin">
+    login/sign up
+    </button>
+</span>
+<button class="login-button btn" ng-show="user.username" ng-click="logout()">
+    logout
+</button>
+<input class = "btn btn-default login-input" ng-show="showLogin" placeholder="user name" ng-model="username"/>
+<input class = "btn btn-default login-input" ng-show="showLogin" placeholder="password" ng-model="password"/>
+<br ng-show="showLogin">
+<button class = "login-button btn" ng-show="showLogin" ng-click="authenticate(username, password)">
+    login
+</button>
+<br ng-show="showLogin">
+<button class = "login-button btn" ng-show="showLogin" ng-click="addAccount(username, password)">
+    register
+</button>
 <h2>stream flows</h2>
 <input placeholder="search" ng-model="searchText"/>
+<br>
 <ul>
-    <li ng-repeat="site in siteData | filter:searchText">
-         <button class="btn btn-default" data-sr>
+    <li ng-repeat="site in currentFavorites | filter:searchText" >
+        <input class = "btn btn-default parameters-input"
+               placeholder="lower parameter"
+               ng-model="site.lowerParameter"
+               type="number">
+        <button class="btn btn-success" ng-click="removeFavorite(site.description)"
+                ng-show="isFlowInParameters(site)">
              <span ng-show="showCfsWhenScreenIsSmall">
                  {{ site.streamFlow }} --
              </span>
+            <span> {{ site.favorited_by }}</span>
              {{site.description}} -- {{ site.streamFlow }} cfs
-         </button>
+        </button>
+        <button class="btn btn-default" ng-click="removeFavorite(site.description)"
+                ng-hide="isFlowInParameters(site)">
+             <span ng-show="showCfsWhenScreenIsSmall">
+                 {{ site.streamFlow }} --
+             </span>
+            <span> {{ site.favorited_by }}</span>
+             {{site.description}} -- {{ site.streamFlow }} cfs
+        </button>
+        <input class = "btn btn-default parameters-input"
+               placeholder="upper parameter"
+               ng-model="site.upperParameter"
+               type="number">
+    </li>
+
+
+    <li ng-repeat="site in siteData | orderBy:'description' | filter:searchText">
+        <button class="btn btn-default" ng-click="favorite(site.description)">
+             <span ng-show="showCfsWhenScreenIsSmall">
+                 {{ site.streamFlow }} --
+             </span>
+            <span> {{ site.favorited_by }}</span>
+             {{site.description}} -- {{ site.streamFlow }} cfs
+        </button>
     </li>
 </ul>
+
 <button class="btn" ng-hide="showInput" ng-click="showInput = !showInput">
     can't find a site?
 </button>
@@ -17,3 +70,9 @@
     add site to database
 </button>
 <input class = "btn btn-default add-site-input" ng-show="showInput" placeholder="site number" ng-model="siteNumber"/>
+
+
+
+
+
+
