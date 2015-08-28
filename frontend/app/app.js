@@ -14,4 +14,4 @@ var myApp = angular.module('myApp', [
         $routeProvider.otherwise({redirectTo: '/flows'});
     }]);
 
-var api = "http://localhost:8001/";
+var api = "/api";
