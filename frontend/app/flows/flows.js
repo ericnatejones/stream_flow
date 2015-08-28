@@ -26,9 +26,7 @@ angular.module('myApp.flows', ['ngRoute'])
     $scope.isFlowInParameters = function (site) {
         return site.lowerParameter < site.streamFlow && site.streamFlow < site.upperParameter
     };
-    $http.get(api+'parameters/').success(function (parameters) {
-        $scope.parameters = parameters
-    });
+
     $http.get(api+'accounts/').success(function (accounts) {
         $scope.accounts = accounts;
     });
@@ -70,20 +68,26 @@ angular.module('myApp.flows', ['ngRoute'])
             toastr.warning (problemWithLoggingIn)
         }
         //for (i = 0; i < $scope.sites.length; i++){
-        $scope.favorite("yo");
         //}
-        for (i = 0; i < $scope.parameters.length; i++){
-            if ($scope.parameters[i].account == $scope.user.id){
-                for (var thisNum = 0; thisNum < $scope.currentFavorites.length; thisNum++){
-                    if ($scope.parameters[i].site == $scope.currentFavorites[thisNum].id){
-                        $scope.currentFavorites[thisNum].upperParameter = $scope.parameters[i].upper_parameter;
-                        $scope.currentFavorites[thisNum].lowerParameter = $scope.parameters[i].lower_parameter
-
+        $scope.loadParametersAndAssociatedAccountsAndSites(username)
+    };
+    $scope.loadParametersAndAssociatedAccountsAndSites = function (username) {
+        $http.get(api+'everything/').success(function (parameterInfo) {
+            $scope.parameterInfo = parameterInfo;
+            for (var i=0; i<$scope.parameterInfo.length; i++) {
+                if ($scope.parameterInfo[i].username == username){
+                    for (var iterSite = 0; iterSite<$scope.parameterInfo[i].sites.length; iterSite++) {
+                            console.log($scope.parameterInfo[i].sites[iterSite].upper_parameter);
+                        $scope.favorite($scope.parameterInfo[i].sites[iterSite].site.description,
+                                        $scope.parameterInfo[i].sites[iterSite].lower_parameter,
+                                        $scope.parameterInfo[i].sites[iterSite].upper_parameter );
                     }
 
                 }
+
             }
-        }
+
+        });
     };
 
     $scope.addAccount = function () {
@@ -195,11 +199,17 @@ angular.module('myApp.flows', ['ngRoute'])
         $scope.showInput = false;
         apiCall($scope.siteNumber=siteNumber);
     };
-    $scope.favorite = function (site){
+    $scope.favorite = function (site, lowerParameter, upperParameter){
         if ($scope.user.username){
             for(var i = 0; i < $scope.siteData.length; i++) {
-                if ($scope.siteData[i].description === site) {
+                if ($scope.siteData[i].description == site) {
                     $scope.currentFavorites.push($scope.siteData[i]);
+                    for (var iterFavs=0; iterFavs<$scope.currentFavorites.length; iterFavs++){
+                        if ($scope.currentFavorites[iterFavs].description == site){
+                            $scope.currentFavorites[iterFavs].lowerParameter = lowerParameter;
+                            $scope.currentFavorites[iterFavs].upperParameter = upperParameter;
+                        }
+                    }
                     for(var n = 0; n < $scope.sites.length; n++){
                         if (site == $scope.sites[n].description) {
                             $scope.sites[n].favorited_by.push($scope.user.id);
