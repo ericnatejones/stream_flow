@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'apps.flows',
     'rest_framework',
     'corsheaders',
-    'apps.authentication',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -109,7 +108,7 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     'localhost/',
+    'localhost:8001/update-site/',
 )
 
 CORS_ORIGIN_ALLOW_ALL = True
-AUTH_USER_MODEL = 'authentication.Account'
